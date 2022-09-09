@@ -1,0 +1,19 @@
+{
+  "name": "tdd",
+  "version": "1.0.0",
+  "description": "Assessment test 1",
+  "main": "payment.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "jest": "^28.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.23.0",
+    "eslint-plugin-jest": "^27.0.1",
+    "jest-fetch-mock": "^3.0.3"
+  }
+}
