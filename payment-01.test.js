@@ -16,7 +16,6 @@ describe("objects", () => {
       middleName: "Anna",
       lastName: "Miller",
     }
-
     expect(checkPersonObject(person1)).toBe(true)
     expect(checkPersonObject(person2)).toBe(true)
   })
@@ -26,7 +25,6 @@ describe("objects", () => {
       firstName: "James",
       lastName: "Smith",
     }
-
     expect(checkPersonObject(person1)).toBe(true)
   })
 
@@ -39,7 +37,6 @@ describe("objects", () => {
       number: "1234567890123456",
       cvc: "456",
     }
-
     expect(checkCreditCardObject(cc1)).toBe(true)
     expect(checkCreditCardObject(cc2)).toBe(true)
   })
@@ -53,12 +50,11 @@ describe("objects", () => {
       number: "1234567890123456",
       // cvc missing
     }
-
     expect(checkCreditCardObject(cc1)).toBe(false)
     expect(checkCreditCardObject(cc2)).toBe(false)
   })
 
-  it.skip("American Express cards should not be accepted", () => {
+  it("American Express cards should not be accepted", () => {
     const cc1 = {
       number: "37234567012345",
       cvc: "123",
@@ -67,7 +63,6 @@ describe("objects", () => {
       number: "3434567890123456",
       cvc: "123",
     }
-
     expect(checkCreditCardObject(cc1)).toBe(false)
     expect(checkCreditCardObject(cc2)).toBe(false)
   })
