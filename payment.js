@@ -7,9 +7,10 @@
  */
 function checkPersonObject(person) {
   if (person && person.firstName && person.middleName && person.lastName) {
-    return true
+    console.log("OK")
+    return "OK"
   } else if (person && person.firstName && person.lastName) {
-    return true
+    return "OK"
   } else {
     return false
   }
@@ -31,9 +32,9 @@ function checkCreditCardObject(creditCard) {
     creditCard.number.slice(0, 2) != "34" &&
     creditCard.number.slice(0, 2) != "37"
   ) {
-    return true
+    return "OK"
   }
-  return false
+  return "INVALID_CARD"
 }
 
 /**
@@ -45,9 +46,9 @@ function checkCreditCardObject(creditCard) {
  */
 function checkPaymentObject(payment) {
   if (payment && typeof payment.sum === "number" && payment.sum >= 0) {
-    return true
+    return "OK"
   }
-  return false
+  return "PAYMENT_FAILED"
 }
 
 /**
@@ -126,19 +127,42 @@ async function makePayment(creditCardData, paymentData) {
  * @returns { Promise<boolean> }
  */
 async function paymentProcess(person, creditCardData, paymentData) {
-  const isCreditCardValid = await checkCreditCardValidity(creditCardData)
-  if (!isCreditCardValid) {
-    return false
-  }
+  try {
+    const isCreditCardValid = await checkCreditCardValidity(creditCardData)
+    if (!isCreditCardValid) {
+      console.log("Credit card not valid: Check your credit card number")
+      return "INVALID_CARD"
+    }
 
-  const isPersonValid = checkPersonObject(person)
-  if (!isPersonValid) {
-    return false
-  }
+    const isPersonValid = checkPersonObject(person)
+    if (!isPersonValid) {
+      console.log("Person not valid: Fill all names")
+      return false
+    }
 
-  const paymentResult = await makePayment(creditCardData, paymentData)
-  return paymentResult
+    const paymentResult = await makePayment(creditCardData, paymentData)
+    if (!paymentResult) {
+      console.log("Payment not OK: Check credit card and payment")
+    } else {
+      return paymentResult
+    }
+  } catch (error) {
+    console.log(error)
+  }
 }
+
+paymentProcess(
+  {
+    firstName: "James",
+  },
+  {
+    number: "3423454567012345856",
+    cvc: "123",
+  },
+  {
+    sum: "asd",
+  }
+)
 
 module.exports = {
   checkPersonObject,

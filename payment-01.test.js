@@ -16,8 +16,8 @@ describe("objects", () => {
       middleName: "Anna",
       lastName: "Miller",
     }
-    expect(checkPersonObject(person1)).toBe(true)
-    expect(checkPersonObject(person2)).toBe(true)
+    expect(checkPersonObject(person1)).toBe("OK")
+    expect(checkPersonObject(person2)).toBe("OK")
   })
 
   it("missing middlename is valid", () => {
@@ -25,7 +25,7 @@ describe("objects", () => {
       firstName: "James",
       lastName: "Smith",
     }
-    expect(checkPersonObject(person1)).toBe(true)
+    expect(checkPersonObject(person1)).toBe("OK")
   })
 
   it("check valid creditCard object", () => {
@@ -37,8 +37,8 @@ describe("objects", () => {
       number: "1234567890123456",
       cvc: "456",
     }
-    expect(checkCreditCardObject(cc1)).toBe(true)
-    expect(checkCreditCardObject(cc2)).toBe(true)
+    expect(checkCreditCardObject(cc1)).toBe("OK")
+    expect(checkCreditCardObject(cc2)).toBe("OK")
   })
 
   it("check invalid creditCard object", () => {
@@ -50,8 +50,8 @@ describe("objects", () => {
       number: "1234567890123456",
       // cvc missing
     }
-    expect(checkCreditCardObject(cc1)).toBe(false)
-    expect(checkCreditCardObject(cc2)).toBe(false)
+    expect(checkCreditCardObject(cc1)).toBe("INVALID_CARD")
+    expect(checkCreditCardObject(cc2)).toBe("INVALID_CARD")
   })
 
   it("American Express cards should not be accepted", () => {
@@ -63,8 +63,8 @@ describe("objects", () => {
       number: "3434567890123456",
       cvc: "123",
     }
-    expect(checkCreditCardObject(cc1)).toBe(false)
-    expect(checkCreditCardObject(cc2)).toBe(false)
+    expect(checkCreditCardObject(cc1)).toBe("INVALID_CARD")
+    expect(checkCreditCardObject(cc2)).toBe("INVALID_CARD")
   })
 
   it("check valid payment object", () => {
@@ -72,7 +72,7 @@ describe("objects", () => {
       sum: 12,
     }
 
-    expect(checkPaymentObject(payment)).toBe(true)
+    expect(checkPaymentObject(payment)).toBe("OK")
   })
 
   it("check invalid payment object", () => {
@@ -80,6 +80,14 @@ describe("objects", () => {
       sum: -1, // Negative sums are invalid in our api.
     }
 
-    expect(checkPaymentObject(payment)).toBe(false)
+    expect(checkPaymentObject(payment)).toBe("PAYMENT_FAILED")
+  })
+
+  it("check invalid payment object", () => {
+    const payment = {
+      sum: "a", // Negative sums are invalid in our api.
+    }
+
+    expect(checkPaymentObject(payment)).toBe("PAYMENT_FAILED")
   })
 })
