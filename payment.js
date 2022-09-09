@@ -7,9 +7,12 @@
  */
 function checkPersonObject(person) {
   if (person && person.firstName && person.middleName && person.lastName) {
-    return true;
+    return true
+  } else if (person && person.firstName && person.lastName) {
+    return true
+  } else {
+    return false
   }
-  return false;
 }
 
 /**
@@ -26,9 +29,9 @@ function checkCreditCardObject(creditCard) {
     creditCard.cvc &&
     creditCard.number.length === 16
   ) {
-    return true;
+    return true
   }
-  return false;
+  return false
 }
 
 /**
@@ -40,9 +43,9 @@ function checkCreditCardObject(creditCard) {
  */
 function checkPaymentObject(payment) {
   if (payment && typeof payment.sum === "number") {
-    return true;
+    return true
   }
-  return false;
+  return false
 }
 
 /**
@@ -52,9 +55,9 @@ function checkPaymentObject(payment) {
  * @returns { Promise<boolean> }
  */
 async function checkCreditCardValidity(creditCardData) {
-  const validArgs = checkCreditCardObject(creditCardData);
+  const validArgs = checkCreditCardObject(creditCardData)
   if (!validArgs) {
-    return false;
+    return false
   }
 
   const result = await fetch(
@@ -66,12 +69,12 @@ async function checkCreditCardValidity(creditCardData) {
       },
       body: JSON.stringify(creditCardData),
     }
-  );
-  const json = await result.json();
+  )
+  const json = await result.json()
   if (json.validCard) {
-    return true;
+    return true
   } else {
-    return false;
+    return false
   }
 }
 
@@ -82,9 +85,10 @@ async function checkCreditCardValidity(creditCardData) {
  * @returns { Promise<boolean> }
  */
 async function makePayment(creditCardData, paymentData) {
-  const validArgs = checkCreditCardObject(creditCardData) && checkPaymentObject(paymentData);
+  const validArgs =
+    checkCreditCardObject(creditCardData) && checkPaymentObject(paymentData)
   if (!validArgs) {
-    return false;
+    return false
   }
 
   const result = await fetch("https://api.pihi-group.com/cc/make-payment", {
@@ -93,12 +97,12 @@ async function makePayment(creditCardData, paymentData) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ cc: creditCardData, payment: paymentData }),
-  });
-  const json = await result.json();
+  })
+  const json = await result.json()
   if (json.ok) {
-    return true;
+    return true
   } else {
-    return false;
+    return false
   }
 }
 
@@ -112,19 +116,19 @@ async function makePayment(creditCardData, paymentData) {
  * @param {*} paymentData A payment data object according to PihiGroup CC Spec
  * @returns { Promise<boolean> }
  */
-async function paymentProcess(person, creditCardData, paymentData) {  
-  const isCreditCardValid = await checkCreditCardValidity(creditCardData);
+async function paymentProcess(person, creditCardData, paymentData) {
+  const isCreditCardValid = await checkCreditCardValidity(creditCardData)
   if (!isCreditCardValid) {
-    return false;
-  }
-  
-  const isPersonValid = checkPersonObject(person);
-  if (!isPersonValid) {
-    return false;
+    return false
   }
 
-  const paymentResult = await makePayment(creditCardData, paymentData);
-  return paymentResult;
+  const isPersonValid = checkPersonObject(person)
+  if (!isPersonValid) {
+    return false
+  }
+
+  const paymentResult = await makePayment(creditCardData, paymentData)
+  return paymentResult
 }
 
 module.exports = {
@@ -134,4 +138,4 @@ module.exports = {
   checkCreditCardValidity,
   paymentProcess,
   makePayment,
-};
+}
