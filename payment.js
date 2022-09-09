@@ -44,7 +44,7 @@ function checkCreditCardObject(creditCard) {
  * @returns {boolean}
  */
 function checkPaymentObject(payment) {
-  if (payment && typeof payment.sum === "number") {
+  if (payment && typeof payment.sum === "number" && payment.sum >= 0) {
     return true
   }
   return false

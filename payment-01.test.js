@@ -75,7 +75,7 @@ describe("objects", () => {
     expect(checkPaymentObject(payment)).toBe(true)
   })
 
-  it.skip("check invalid payment object", () => {
+  it("check invalid payment object", () => {
     const payment = {
       sum: -1, // Negative sums are invalid in our api.
     }
